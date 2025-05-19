@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+data:
+  MYSQL_HOST: my-mysql-primary.db
+  MYSQL_PORT: "3306"
+  MYSQL_USER: tahseen
+  MYSQL_DATABASE: iplogger

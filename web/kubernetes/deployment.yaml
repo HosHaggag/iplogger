@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: haggagdev/iplogger:1.0.0
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: web-config
+            - secretRef:
+                name: web-secret

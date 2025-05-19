@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IP Logs</title>
+</head>
+<body>
+    <h1>Logged IP Addresses</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>IP Address</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in ip_logs %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.ip_address }}</td>
+                    <td>{{ row.timestamp }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
