@@ -14,7 +14,11 @@ spec:
     spec:
       containers:
         - name: web
-          image: haggagdev/iplogger:1.0.0
+          image: haggagdev/iplogger:arm64
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c","python" , "db_init.py"]
           ports:
             - containerPort: 5000
           envFrom:
