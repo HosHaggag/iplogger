@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: haggagdev/iplogger:arm64
+          image: haggagdev/iplogger:1.0.1
           lifecycle:
             postStart:
               exec:

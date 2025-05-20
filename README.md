@@ -4,13 +4,22 @@ A simple Flask-based API service to log incoming client IP addresses into a MySQ
 
 ---
 
+## 📑 Table of Contents
+
+- [Prerequisites](#-prerequisites)
+- [Setup Instructions](#️-setup-instructions)
+- [How to Test the API](#-how-to-test-the-api)
+- [Validate MySQL Replication](#7-validate-mysql-replication)
+- [Limitations & Considerations](#️-limitations--considerations)
+
+
 ## 📋 Prerequisites
 
 To run and test this application, ensure the following tools are installed:
 
 - Min 2 vcpu processor and 2 GB memory
 - [Docker](https://www.docker.com/)
-- [minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download) or any standalon kubernetes solution
+- [minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download) or any standalone Kubernetes solution
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [helm](https://helm.sh/docs/intro/install/)
 
@@ -44,7 +53,7 @@ kubectl apply -f kubernetes/secret.yaml -n web
 kubectl apply -f kubernetes/deployment.yaml -n web
 kubectl apply -f kubernetes/service.yaml -n web
 ```
-once the deployment is running the database will initiate automaticlly by poststart hook.
+once the deployment is running the database will initiate automaticly by poststart hook.
 
 
 ### 5. Test your setup
@@ -56,7 +65,7 @@ you should see something similar to this.
 
 ![Product Name Screen Shot](assets/get-pod.png)
 
-### 6. For testing this application publiclly 
+### 6. For testing this application publicly 
 ```bash 
 kubectl port-forward service/web-service 5000:5000 -n web --address='0.0.0.0'
 
@@ -67,15 +76,16 @@ You should see some thing similar to this
  ![logged ip Screen Shot](assets/ip-list.png)
 
 ### 7. Validate mysql replication 
-You have to see the same data on any secondry replica 
+You have to see the same data on any secondary replica 
 the easiest way to see that that to get into the the replica if you connected to primary and select the data in the table 
-```bash 
+```sql 
 kubectl exec -it mysql-secondary-0 -- bash
 
 mysql -u <username> -p 
 
-    use iplogger;
-    select * from ip_logs;
+USE iplogger;
+SELECT * FROM ip_logs;
+
 ```
 You should also see something similar to this 
 
@@ -86,17 +96,20 @@ You should also see something similar to this
 
 Log an IP
 ```bash
-curl -X POST http://localhost:8080/log-ip
+curl -X POST http://localhost:5000/log-ip
 ```
 View Logged IPs
 ```bash
-curl http://localhost:8080/
+curl http://localhost:5000/
 ```
 
 
 
 
 ## ⚠️ Limitations & Considerations
+
+* if you are using Arm64 processor architicture use this tag instead : haggagdev/iplogger:arm64
+
 * No authentication: This is a simple, unauthenticated API.
 
 * No rate-limiting: Spam protection is not included.
